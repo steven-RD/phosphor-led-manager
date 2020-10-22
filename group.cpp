@@ -11,6 +11,16 @@ namespace led
 /** @brief Overloaded Property Setter function */
 bool Group::asserted(bool value)
 {
+    std::string LedName = "/var/lib/obmc/led";
+	int fd = open(LedName.c_str(), O_RDWR | O_CREAT);
+	//char tmp[64]="on"
+	
+    if(value == true){
+		write(fd, "on", 2);
+	}else{
+		write(fd, "off", 3);
+	}
+	close(fd);
     // If the value is already what is before, return right away
     if (value ==
         sdbusplus::xyz::openbmc_project::Led::server::Group::asserted())
